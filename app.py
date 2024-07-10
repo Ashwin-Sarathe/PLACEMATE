@@ -74,7 +74,7 @@ if selected == "Home":
 
 # ========= ACCOUNT TAB =========
 if selected == "Login/Register":
-        cred = credentials.Certificate('launchpred-firebase-adminsdk-l3b9o-c5cdb1c41b.json')
+        cred = credentials.Certificate('<--PATH OF YOUR KEY FILE (JSON)-->')
 
         #firebase_admin.initialize_app(cred)
         st.title("Login/Register Form 👨‍🎓")
