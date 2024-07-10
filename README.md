@@ -38,7 +38,7 @@ Welcome to the PLACEMATE! This web application helps final-year students predict
 
 ## Points To Remember 🧠
 
-1. Download the key (.json file) for your project from the Firebase interface. Place it in the project folder and add it's path in "app.py" file in "Account Tab".
+1. Download your key (.json file) for your project from the Firebase interface. Place it in the project folder and add it's path in "app.py" file in "Account Tab".
 2. In "secrets.toml" file, add your "Firebase Web API Key". You will get it from your project's Firebase interface.
 3. Download all the necessary packages from the "requirements.txt" file.
 4. For opening the project, open CMD in the project folder and write "streamlit run app.py". The app will open in your browser on localhost.
