@@ -1,2 +1,9 @@
 streamlit==1.23.1
 requests==2.31.0
+fpdf
+pil
+json
+pickle
+os
+pandas
+firebase_admin
