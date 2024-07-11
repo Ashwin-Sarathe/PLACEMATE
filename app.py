@@ -76,7 +76,7 @@ if selected == "Home":
 if selected == "Login/Register":
         cred = credentials.Certificate('launchpred-firebase-adminsdk-l3b9o-c5cdb1c41b.json')
 
-        firebase_admin.initialize_app(cred)
+        #firebase_admin.initialize_app(cred)
         st.title("Login/Register Form 👨‍🎓")
         
         if 'user_info' not in st.session_state:
