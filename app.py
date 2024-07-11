@@ -408,7 +408,7 @@ if selected == "About Me":
         st.subheader("#️⃣ DIPLOMA IN COMPUTER SCIENCE")
         st.subheader("#️⃣ 3RD YEAR STUDENT")
         github="https://github.com/ashwinsarathe123"
-        st.markdown("### <span style = 'color:white'>#️⃣ GITHUB LINK ➡️ [CLICK HERE!!](% s)</span>" % github, unsafe_allow_html=True)
+        st.markdown("### <span style = 'color:black'>#️⃣ GITHUB LINK ➡️ [CLICK HERE!!](% s)</span>" % github, unsafe_allow_html=True)
     
     st.divider()
     st.header("Special Thanks To -")
