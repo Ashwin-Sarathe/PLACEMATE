@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 import pandas as pd
-import pickle
+import pickle5 from pickle
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import auth
