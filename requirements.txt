@@ -3,6 +3,6 @@ pandas
 numpy
 firebase_admin
 fpdf
-pillow5
-pickle
+pillow
+pickle5
 scikit-learn
