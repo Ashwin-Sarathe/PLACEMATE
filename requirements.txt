@@ -1,3 +1,4 @@
+python
 streamlit-option-menu
 pandas
 numpy
