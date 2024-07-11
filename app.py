@@ -70,11 +70,11 @@ if selected == "Home":
         st.markdown("#### <span style='font-size: 24px;'> `Create Your Account & Begin Your Placment Journey Now!`</span>", unsafe_allow_html=True)
 
     with col2:
-        st.image("Images\\home_tab_pic.png")
+        st.image("Images/home_tab_pic.png")
 
 # ========= ACCOUNT TAB =========
 if selected == "Login/Register":
-        cred = credentials.Certificate('<--PATH OF YOUR KEY FILE (JSON)-->')
+        cred = credentials.Certificate('launchpred-firebase-adminsdk-l3b9o-c5cdb1c41b.json')
 
         #firebase_admin.initialize_app(cred)
         st.title("Login/Register Form 👨‍🎓")
@@ -141,7 +141,7 @@ if selected == "Predictions":
             st.markdown("##### _Here we have used <span style='color:yellow'>Random Forest 🤖</span> Machine Learning Algorithm to create our Model to predict the Placement of Students_.", unsafe_allow_html=True)
             st.markdown("##### _You just need to provide your data to get started and predict your placement probability using our <span style = 'color:yellow'>well trained Model right here</span>_.", unsafe_allow_html=True)
         with col2:
-            st.image("Images\\prediction_tab_pic.png")
+            st.image("Images/prediction_tab_pic.png")
 
         st.divider()
 
@@ -393,14 +393,14 @@ if selected == "Bug Report":
             st.markdown("## <span style = 'color:white'>Thank You 💖</span>", unsafe_allow_html=True)
             st.markdown("#### <span style = 'color:yellow'>Team HardCoders 🦾</span>", unsafe_allow_html=True)
     with col2:
-        st.image("Images\\AppSettings.png")
+        st.image("Images/AppSettings.png")
 
 
 # ========= CONTRIBUTORS =========
 if selected == "About Me":
     col1, col2 = st.columns(2)
     with col1:
-        st.image("Images\\profile-pic.png", width=350)
+        st.image("Images/profile-pic.png", width=350)
 
     with col2:
         st.title("ASHWIN SARATHE 🧑‍💻")
@@ -426,4 +426,4 @@ if selected == "Buy Me A Coffee":
         st.subheader("")
         st.markdown(f'<a href="{url}" target="_blank" style="background-color: #008CBA; color: white; padding: 15px 30px; font-size: 20px; text-align: center; text-decoration: none; display: inline-block; border-radius: 4px;">Donate</a>', unsafe_allow_html=True)
     with col2:
-        st.image("Images\\c.png")
+        st.image("Images/c.png")
