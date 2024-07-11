@@ -4,5 +4,4 @@ numpy
 firebase_admin
 fpdf
 pillow
-pickle
 scikit-learn
