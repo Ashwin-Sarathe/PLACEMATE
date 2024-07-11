@@ -6,3 +6,6 @@ fpdf
 pillow
 pickle
 scikit-learn
+pip install —upgrade pip
+pip install —upgrade setuptools wheel
+
