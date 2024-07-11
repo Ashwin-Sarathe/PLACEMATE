@@ -20,7 +20,7 @@ hide_st_style = """
                 """
 
 # default data
-dataframe = pd.read_csv(r"Datasets\\collegePlacementData.csv")
+dataframe = pd.read_csv("Datasets\\collegePlacementData.csv")
 
 st.set_page_config(
     page_title="PLACEMATE",
