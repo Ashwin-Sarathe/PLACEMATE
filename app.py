@@ -10,6 +10,7 @@ from fpdf import FPDF
 from PIL import Image
 import json
 import os
+import scikit-learn as sklearn
 
 hide_st_style = """
                 <style>
