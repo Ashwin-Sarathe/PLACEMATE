@@ -4,3 +4,4 @@ numpy
 firebase_admin
 fpdf
 pillow
+pickle
