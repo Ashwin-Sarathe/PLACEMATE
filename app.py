@@ -2,10 +2,6 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 import pandas as pd
 import pickle
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import auth
-import auth_functions
 from fpdf import FPDF
 from PIL import Image
 import json
@@ -37,8 +33,8 @@ st.markdown(hide_st_style, unsafe_allow_html=True)
 with st.sidebar:
     selected = option_menu(
         menu_title = "PLACEMATE",
-        options = ["Home", "Login/Register", "Predictions", "Resume Builder", "Bug Report", "Buy Me A Coffee" ,"About Me"],
-        icons = ["house", "person-add", "magic", "file-earmark-text", "bug", "cup-hot" ,"person-circle"],
+        options = ["Home", "Predictions", "Resume Builder", "Bug Report", "Buy Me A Coffee" ,"About Me"],
+        icons = ["house", "magic", "file-earmark-text", "bug", "cup-hot" ,"person-circle"],
         menu_icon= "robot",
         default_index = 0,
     )
@@ -73,266 +69,204 @@ if selected == "Home":
     with col2:
         st.image("Images/home_tab_pic.png")
 
-# ========= ACCOUNT TAB =========
-if selected == "Login/Register":
-        cred = credentials.Certificate('launchpred-firebase-adminsdk-l3b9o-c5cdb1c41b.json')
-
-        #firebase_admin.initialize_app(cred)
-        st.title("Login/Register Form 👨‍🎓")
-        
-        if 'user_info' not in st.session_state:
-            st.header("Please Login/Register by filling in your details ✏️")
-            st.divider()
-            col1,col2,col3 = st.columns([1,2,1])
-
-            # Authentication form layout
-            do_you_have_an_account = col2.selectbox(label='Choose an Option:',options=('Login','Register','Forgot Password!'))
-            auth_form = col2.form(key='Authentication form',clear_on_submit=False)
-            email = auth_form.text_input(label='Email')
-            password = auth_form.text_input(label='Password',type='password') if do_you_have_an_account in {'Login','Register'} else auth_form.empty()
-            username = auth_form.text_input(label='Username') if do_you_have_an_account in {'Register'} else auth_form.empty()
-            auth_notification = col2.empty()
-
-            # Sign In
-            if do_you_have_an_account == 'Login' and auth_form.form_submit_button(label='Sign In',use_container_width=True,type='primary'):
-                with auth_notification, st.spinner('Signing in...'):
-                    auth_functions.sign_in(email,password)
-
-            # Create Account
-            elif do_you_have_an_account == 'Register' and auth_form.form_submit_button(label='Create Account',use_container_width=True,type='primary'):
-                with auth_notification, st.spinner('Creating account...'):
-                    auth_functions.create_account(email,password,username)
-
-            # Password Reset
-            elif do_you_have_an_account == 'Forgot Password!' and auth_form.form_submit_button(label='Send Password Reset Email',use_container_width=True,type='primary'):
-                with auth_notification, st.spinner('Sending password reset link'):
-                    auth_functions.reset_password(email)
-
-            # Authentication success and warning messages
-            if 'auth_success' in st.session_state:
-                auth_notification.success(st.session_state.auth_success)
-                del st.session_state.auth_success
-            elif 'auth_warning' in st.session_state:
-                auth_notification.warning(st.session_state.auth_warning)
-                del st.session_state.auth_warning
-
-        ## -------------------------------------------------------------------------------------------------
-        ## Logged in --------------------------------------------------------------------------------------
-        ## -------------------------------------------------------------------------------------------------
-        else:
-            # Sign out
-            st.header('Sign out: 🙋‍♂️')
-            st.button(label='Sign Out',on_click=auth_functions.sign_out,type='primary')
-
-            # Delete Account
-            st.header('Delete account: 🥹')
-            password = st.text_input(label='Confirm your password',type='password')
-            st.button(label='Delete Account',on_click=auth_functions.delete_account,args=[password],type='primary')
-
 # ========= PREDICTION TAB =======
 if selected == "Predictions":
-    if 'user_info' not in st.session_state:
-        st.warning('Please Login with your Email-ID and Password to Know your Placement Status!  ', icon='⚠️')
-    else:
-        col1, col2 = st.columns([2, 1])
-        with col1:
-            st.title("Placement Prediction ⚡")
-            st.subheader("Provide the inputs below 👇🏻")
-            st.divider()
-            st.markdown("##### _Here we have used <span style='color:yellow'>Random Forest 🤖</span> Machine Learning Algorithm to create our Model to predict the Placement of Students_.", unsafe_allow_html=True)
-            st.markdown("##### _You just need to provide your data to get started and predict your placement probability using our <span style = 'color:yellow'>well trained Model right here</span>_.", unsafe_allow_html=True)
-        with col2:
-            st.image("Images/prediction_tab_pic.png")
+      col1, col2 = st.columns([2, 1])
+      with col1:
+          st.title("Placement Prediction ⚡")
+          st.subheader("Provide the inputs below 👇🏻")
+          st.divider()
+          st.markdown("##### _Here we have used <span style='color:yellow'>Random Forest 🤖</span> Machine Learning Algorithm to create our Model to predict the Placement of Students_.", unsafe_allow_html=True)
+          st.markdown("##### _You just need to provide your data to get started and predict your placement probability using our <span style = 'color:yellow'>well trained Model right here</span>_.", unsafe_allow_html=True)
+      with col2:
+          st.image("Images/prediction_tab_pic.png")
 
-        st.divider()
+      st.divider()
 
-        col1, col2 = st.columns(2)
+      col1, col2 = st.columns(2)
 
-        with col1:
-            # Get user input for Age
-            age = st.slider('Enter the Age 👇🏻', min_value=18, max_value=27, step=1)
-            # Get user input for Internships
-            internships = st.slider('Enter Number of Internships 👇🏻', min_value=0, max_value=10, step=1)
-            # Get user input for CGPA
-            cgpa = st.slider('Enter the CGPA 👇🏻', min_value=0.0, max_value=10.0, step=0.1)
-            predict_button = st.button("Predict the Placement ⚡")
+      with col1:
+          # Get user input for Age
+          age = st.slider('Enter the Age 👇🏻', min_value=18, max_value=27, step=1)
+          # Get user input for Internships
+          internships = st.slider('Enter Number of Internships 👇🏻', min_value=0, max_value=10, step=1)
+          # Get user input for CGPA
+          cgpa = st.slider('Enter the CGPA 👇🏻', min_value=0.0, max_value=10.0, step=0.1)
+          predict_button = st.button("Predict the Placement ⚡")
 
-        with col2:
-            # Get user input for Gender
-            gender = st.selectbox('Choose Gender 🧑🏻‍🦱👧🏻', ['Male', 'Female'])
-            # Get user input for Stream
-            stream = st.selectbox('Choose Stream 🎓', ['Electronics And Communication', 'Computer Science', 'Information Technology', 'Mechanical', 'Electrical', 'Civil'])
-            # Get user input for Hostel
-            hostel = 'No'
-            # Get user input for History of Backlogs
-            backlogs = st.selectbox("History of Backlogs 👇🏻", ['Yes', "No"])
-        
-        # encoding the variables here.
+      with col2:
+          # Get user input for Gender
+          gender = st.selectbox('Choose Gender 🧑🏻‍🦱👧🏻', ['Male', 'Female'])
+          # Get user input for Stream
+          stream = st.selectbox('Choose Stream 🎓', ['Electronics And Communication', 'Computer Science', 'Information Technology', 'Mechanical', 'Electrical', 'Civil'])
+          # Get user input for Hostel
+          hostel = 'No'
+          # Get user input for History of Backlogs
+          backlogs = st.selectbox("History of Backlogs 👇🏻", ['Yes', "No"])
+      
+      # encoding the variables here.
 
-        #gender
-        if gender == 'Male': gender_encoded = 1
-        else: gender_encoded = 0
+      #gender
+      if gender == 'Male': gender_encoded = 1
+      else: gender_encoded = 0
 
-        # stream
-        if stream == 'Electronics And Communication': stream_encoded = 1
-        elif stream == 'Computer Science': stream_encoded = 2
-        elif stream == 'Information Technology': stream_encoded = 3
-        elif stream == 'Mechanical': stream_encoded = 4
-        elif stream == 'Electrical': stream_encoded = 5
-        elif stream == 'Civil': stream_encoded = 6
-        else: 'Invalid Stream Selected'
+      # stream
+      if stream == 'Electronics And Communication': stream_encoded = 1
+      elif stream == 'Computer Science': stream_encoded = 2
+      elif stream == 'Information Technology': stream_encoded = 3
+      elif stream == 'Mechanical': stream_encoded = 4
+      elif stream == 'Electrical': stream_encoded = 5
+      elif stream == 'Civil': stream_encoded = 6
+      else: 'Invalid Stream Selected'
 
-        # Hostel
-        hostel_encoded = 1 if hostel == 'Yes' else 0
+      # Hostel
+      hostel_encoded = 1 if hostel == 'Yes' else 0
 
-        # backlog history
-        backlogs_encoded = 1 if backlogs == 'Yes' else 0
+      # backlog history
+      backlogs_encoded = 1 if backlogs == 'Yes' else 0
 
-        # Check if the Predict Placement button is clicked
-        if predict_button:
+      # Check if the Predict Placement button is clicked
+      if predict_button:
 
-            
+          
 
-            # Prepare the user input as a dataframe
-            user_data = {
-                'Age': [age],
-                'Gender': [gender],
-                'Stream': [stream],
-                'Internships': [internships],
-                'CGPA': [cgpa],
-                'Hostel': [hostel],
-                'HistoryOfBacklogs': [backlogs]
-            }
-            user_df = pd.DataFrame(user_data)
-            st.divider()
-            
+          # Prepare the user input as a dataframe
+          user_data = {
+              'Age': [age],
+              'Gender': [gender],
+              'Stream': [stream],
+              'Internships': [internships],
+              'CGPA': [cgpa],
+              'Hostel': [hostel],
+              'HistoryOfBacklogs': [backlogs]
+          }
+          user_df = pd.DataFrame(user_data)
+          st.divider()
+          
 
-            # Make predictions using the loaded model
-            model = pickle.load(open("Models/Placement_Model", 'rb'))
+          # Make predictions using the loaded model
+          model = pickle.load(open("Models/Placement_Model", 'rb'))
 
-            # Display the prediction result
-            prediction = model.predict([[age, gender_encoded, stream_encoded, internships, cgpa, hostel_encoded, backlogs_encoded]])
-            st.markdown("* ## Prediction Result ✅")
-            if prediction == 1:
-                st.balloons()
-                st.markdown("### <span style='color:lightgreen'>Placed 🎉</span>", unsafe_allow_html=True)
-            else:
-                st.markdown("### <span style='color:red'>Not Placed 😢</span>", unsafe_allow_html=True)
+          # Display the prediction result
+          prediction = model.predict([[age, gender_encoded, stream_encoded, internships, cgpa, hostel_encoded, backlogs_encoded]])
+          st.markdown("* ## Prediction Result ✅")
+          if prediction == 1:
+              st.balloons()
+              st.markdown("### <span style='color:lightgreen'>Placed 🎉</span>", unsafe_allow_html=True)
+          else:
+              st.markdown("### <span style='color:red'>Not Placed 😢</span>", unsafe_allow_html=True)
 
 
-        st.divider()
+      st.divider()
 
-        st.markdown("## Prediction using <span style='color:yellow'>_Random Forest Classifier_ 🦾</span>", unsafe_allow_html=True)
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("* #### Best Accuracy : <span style='color:yellow'>_89.63%_ 🦾</span>", unsafe_allow_html=True)
-            st.markdown("* #### Precision Score : <span style='color:yellow'>_94.08%_ ⚡</span>", unsafe_allow_html=True)
+      st.markdown("## Prediction using <span style='color:yellow'>_Random Forest Classifier_ 🦾</span>", unsafe_allow_html=True)
+      col1, col2 = st.columns(2)
+      with col1:
+          st.markdown("* #### Best Accuracy : <span style='color:yellow'>_89.63%_ 🦾</span>", unsafe_allow_html=True)
+          st.markdown("* #### Precision Score : <span style='color:yellow'>_94.08%_ ⚡</span>", unsafe_allow_html=True)
 
-        with col2:
-            st.markdown("* #### F1 Score : <span style='color:yellow'>_90.54%_ 🦾</span>", unsafe_allow_html=True)
-            st.markdown("* #### Recall Score : <span style='color:yellow'>_87.27%_ ⚡</span>", unsafe_allow_html=True)
+      with col2:
+          st.markdown("* #### F1 Score : <span style='color:yellow'>_90.54%_ 🦾</span>", unsafe_allow_html=True)
+          st.markdown("* #### Recall Score : <span style='color:yellow'>_87.27%_ ⚡</span>", unsafe_allow_html=True)
 
 # ========= RESUME BUILDER TAB =========
 if selected == "Resume Builder":
-    # Function to generate the resume in PDF format
-    if 'user_info' not in st.session_state:
-        st.warning('Please Login with your Email-ID and Password to Get your Resume!  ', icon='⚠️')
-    else:
-        class PDF(FPDF):
-            def __init__(self, profile_picture):
-                super().__init__()
-                self.profile_picture = profile_picture
-                self.set_auto_page_break(auto=False, margin=15)
-            
-            def header(self):
-                if self.profile_picture:
-                    self.image(self.profile_picture, 150, 23, 50)
-                self.set_font('Times', 'BU', 16)
-                self.cell(0, 10, 'CURRICULUM VITAE', 0, 1, 'C')
-                self.ln(10)
-            
-            def footer(self):
-                self.set_y(-15)
-            
-            def add_personal_info(self, name, address, email, phone):
-                self.set_font('Times', 'B', 12)
-                self.cell(0, 10, name, 0, 1, 'L')
-                self.set_font('Times', '', 12)
-                self.cell(0, 10, address, 0, 1, 'L')
-                self.cell(0, 10, email, 0, 1, 'L')
-                self.cell(0, 10, phone, 0, 1, 'L')
-                self.ln(10)
+      # Function to generate the resume in PDF format
+      class PDF(FPDF):
+          def __init__(self, profile_picture):
+              super().__init__()
+              self.profile_picture = profile_picture
+              self.set_auto_page_break(auto=False, margin=15)
+          
+          def header(self):
+              if self.profile_picture:
+                  self.image(self.profile_picture, 150, 23, 50)
+              self.set_font('Times', 'BU', 16)
+              self.cell(0, 10, 'CURRICULUM VITAE', 0, 1, 'C')
+              self.ln(10)
+          
+          def footer(self):
+              self.set_y(-15)
+          
+          def add_personal_info(self, name, address, email, phone):
+              self.set_font('Times', 'B', 12)
+              self.cell(0, 10, name, 0, 1, 'L')
+              self.set_font('Times', '', 12)
+              self.cell(0, 10, address, 0, 1, 'L')
+              self.cell(0, 10, email, 0, 1, 'L')
+              self.cell(0, 10, phone, 0, 1, 'L')
+              self.ln(10)
 
-            def add_section(self, title, body):
-                self.set_font('Times', 'B', 12)
-                self.cell(0, 10, title, 0, 1, 'L')
-                self.set_font('Times', '', 12)
-                self.multi_cell(0, 10, body)
-                self.ln(5)
+          def add_section(self, title, body):
+              self.set_font('Times', 'B', 12)
+              self.cell(0, 10, title, 0, 1, 'L')
+              self.set_font('Times', '', 12)
+              self.multi_cell(0, 10, body)
+              self.ln(5)
 
-        def generate_pdf(name, address, email, phone, objective, education, strengths, projects, profile_picture):
-            pdf = PDF(profile_picture)
-            pdf.add_page()
+      def generate_pdf(name, address, email, phone, objective, education, strengths, projects, profile_picture):
+          pdf = PDF(profile_picture)
+          pdf.add_page()
 
-            pdf.add_personal_info(name, address, email, phone)
+          pdf.add_personal_info(name, address, email, phone)
 
-            
-            pdf.add_section("CAREER OBJECTIVE", objective)
-            pdf.add_section("EDUCATION QUALIFICATION", education)
-            pdf.add_section("STRENGTHS", strengths)
-            pdf.add_section("PROJECTS", projects)
+          
+          pdf.add_section("CAREER OBJECTIVE", objective)
+          pdf.add_section("EDUCATION QUALIFICATION", education)
+          pdf.add_section("STRENGTHS", strengths)
+          pdf.add_section("PROJECTS", projects)
 
-            pdf.set_font('Times', 'I', 12)
-            pdf.cell(0, 10, "I declare that the above information is true to the best of my knowledge.", 0, 1)
-            pdf.ln(5)
-            pdf.cell(0, 10, "Date: ", 0, 1)
-            pdf.cell(0, 10, "Place: ", 0, 1)
+          pdf.set_font('Times', 'I', 12)
+          pdf.cell(0, 10, "I declare that the above information is true to the best of my knowledge.", 0, 1)
+          pdf.ln(5)
+          pdf.cell(0, 10, "Date: ", 0, 1)
+          pdf.cell(0, 10, "Place: ", 0, 1)
 
-            return pdf
+          return pdf
 
-        # Streamlit app
-        st.title("Resume Builder 📄")
-        st.subheader("Note: 📝")
-        st.text("* Please Write Career Objectives, Strengths, Projects in less than 50 Words!")
-        st.text("* Please Mention Education Qualification in this format: ")
-        st.text("* Course Name  -  College/Institution Name  -  Percentage/CGPA  -  Year")
-        st.divider()
-        st.header("Personal Information 🧑‍🎓")
-        name = st.text_input("Full Name")
-        name=name.upper()
-        address = st.text_input("Address")
-        email = st.text_input("Email-ID")
-        phone = st.text_input("Phone Number")
-        phone = "Phone No. : " + phone
-        st.header("Upload Profile Picture 📷")
-        profile_picture = st.file_uploader("Make sure to select .jpg/.jpeg file only", type=["jpg", "jpeg"])
+      # Streamlit app
+      st.title("Resume Builder 📄")
+      st.subheader("Note: 📝")
+      st.text("* Please Write Career Objectives, Strengths, Projects in less than 50 Words!")
+      st.text("* Please Mention Education Qualification in this format: ")
+      st.text("* Course Name  -  College/Institution Name  -  Percentage/CGPA  -  Year")
+      st.divider()
+      st.header("Personal Information 🧑‍🎓")
+      name = st.text_input("Full Name")
+      name=name.upper()
+      address = st.text_input("Address")
+      email = st.text_input("Email-ID")
+      phone = st.text_input("Phone Number")
+      phone = "Phone No. : " + phone
+      st.header("Upload Profile Picture 📷")
+      profile_picture = st.file_uploader("Make sure to select .jpg/.jpeg file only", type=["jpg", "jpeg"])
 
-        st.header("Career Objectives 🎯")
-        objective = st.text_area("Please Enter Your Career Objectives Below:")
+      st.header("Career Objectives 🎯")
+      objective = st.text_area("Please Enter Your Career Objectives Below:")
 
-        st.header("Education Qualification 📚")
-        education = st.text_area("Please Enter Your Education Details Below:")
+      st.header("Education Qualification 📚")
+      education = st.text_area("Please Enter Your Education Details Below:")
 
-        st.header("Strengths 💪")
-        strengths = st.text_area("Please Enter Your Strengths Below:")
+      st.header("Strengths 💪")
+      strengths = st.text_area("Please Enter Your Strengths Below:")
 
-        st.header("Projects 🧑‍💻")
-        projects = st.text_area("Please Tell About the Projects You've Built:")
+      st.header("Projects 🧑‍💻")
+      projects = st.text_area("Please Tell About the Projects You've Built:")
 
-        if st.button("Generate Resume 🔃"):
-            if profile_picture:
-                image = Image.open(profile_picture)
-                image.save("ProfilePics\\profile_picture.jpg")
-                profile_picture_path = "ProfilePics\\profile_picture.jpg"
-            else:
-                profile_picture_path = None
+      if st.button("Generate Resume 🔃"):
+          if profile_picture:
+              image = Image.open(profile_picture)
+              image.save("ProfilePics\\profile_picture.jpg")
+              profile_picture_path = "ProfilePics\\profile_picture.jpg"
+          else:
+              profile_picture_path = None
 
-            resume = generate_pdf(name, address, email, phone, objective, education, strengths, projects, profile_picture_path)
-            resume.output("resume.pdf")
-            st.balloons()
-            st.success("Resume generated successfully!")
-            with open("resume.pdf", "rb") as pdf_file:
-                st.download_button(label="Download Resume as PDF 📩", data=pdf_file, file_name="resume.pdf", mime="application/pdf")
+          resume = generate_pdf(name, address, email, phone, objective, education, strengths, projects, profile_picture_path)
+          resume.output("resume.pdf")
+          st.balloons()
+          st.success("Resume generated successfully!")
+          with open("resume.pdf", "rb") as pdf_file:
+              st.download_button(label="Download Resume as PDF 📩", data=pdf_file, file_name="resume.pdf", mime="application/pdf")
 
 
 # ========= BUG REPORT TAB =========
