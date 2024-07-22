@@ -36,9 +36,10 @@ Welcome to the PLACEMATE! This web application helps final-year students predict
 - **JSON:** For storing bug reports locally.
 - **Google Colab:** For developing and training the machine learning model.
 
-## Points To Remember 🧠
+## Important Points 🌟
 
-1. Download your key (.json file) for your project from the Firebase interface. Place it in the project folder and add it's path in "app.py" file in "Account Tab".
+1. For adding "Login" Module in this project, just move both the files out of the "Login" folder. Then add the "login.py" code in "app.py". Also add the "Login" tab in "streamlit_option_menu" in "app.py". You don't need to update anything in "auth_functions.py" file.
+1. Then download your key (.json file) for your project from the Firebase interface. Add it's path in "app.py" file in "Login" module code.
 2. In "secrets.toml" file, add your "Firebase Web API Key". You will get it from your project's Firebase interface.
 3. Download all the necessary packages from the "requirements.txt" file.
 4. For opening the project, open CMD in the project folder and write "streamlit run app.py". The app will open in your browser on localhost.
