@@ -64,7 +64,7 @@ if selected == "Home":
         </span>
         ''', unsafe_allow_html=True)
         st.text("")
-        st.markdown("#### <span style='font-size: 24px;'> `Create Your Account & Begin Your Placment Journey Now!`</span>", unsafe_allow_html=True)
+        st.markdown("#### <span style='font-size: 24px;'> `Begin Your Placment Journey Now!`</span>", unsafe_allow_html=True)
 
     with col2:
         st.image("Images/home_tab_pic.png")
