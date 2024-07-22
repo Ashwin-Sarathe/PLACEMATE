@@ -1,7 +1,6 @@
 streamlit-option-menu
 pandas
 numpy
-firebase_admin
 fpdf
 pillow
 scikit-learn
