@@ -76,8 +76,8 @@ if selected == "Predictions":
           st.title("Placement Prediction ⚡")
           st.subheader("Provide the inputs below 👇🏻")
           st.divider()
-          st.markdown("##### _Here we have used <span style='color:yellow'>Random Forest 🤖</span> Machine Learning Algorithm to create our Model to predict the Placement of Students_.", unsafe_allow_html=True)
-          st.markdown("##### _You just need to provide your data to get started and predict your placement probability using our <span style = 'color:yellow'>well trained Model right here</span>_.", unsafe_allow_html=True)
+          st.markdown("##### _Here we have used <span style='color:green'>Random Forest 🤖</span> Machine Learning Algorithm to create our Model to predict the Placement of Students_.", unsafe_allow_html=True)
+          st.markdown("##### _You just need to provide your data to get started and predict your placement probability using our <span style = 'color:green'>well trained Model right here</span>_.", unsafe_allow_html=True)
       with col2:
           st.image("Images/prediction_tab_pic.png")
 
@@ -159,15 +159,15 @@ if selected == "Predictions":
 
       st.divider()
 
-      st.markdown("## Prediction using <span style='color:yellow'>_Random Forest Classifier_ 🦾</span>", unsafe_allow_html=True)
+      st.markdown("## Prediction using <span style='color:green'>_Random Forest Classifier_ 🦾</span>", unsafe_allow_html=True)
       col1, col2 = st.columns(2)
       with col1:
-          st.markdown("* #### Best Accuracy : <span style='color:yellow'>_89.63%_ 🦾</span>", unsafe_allow_html=True)
-          st.markdown("* #### Precision Score : <span style='color:yellow'>_94.08%_ ⚡</span>", unsafe_allow_html=True)
+          st.markdown("* #### Best Accuracy : <span style='color:green'>_89.63%_ 🦾</span>", unsafe_allow_html=True)
+          st.markdown("* #### Precision Score : <span style='color:green'>_94.08%_ ⚡</span>", unsafe_allow_html=True)
 
       with col2:
-          st.markdown("* #### F1 Score : <span style='color:yellow'>_90.54%_ 🦾</span>", unsafe_allow_html=True)
-          st.markdown("* #### Recall Score : <span style='color:yellow'>_87.27%_ ⚡</span>", unsafe_allow_html=True)
+          st.markdown("* #### F1 Score : <span style='color:green'>_90.54%_ 🦾</span>", unsafe_allow_html=True)
+          st.markdown("* #### Recall Score : <span style='color:green'>_87.27%_ ⚡</span>", unsafe_allow_html=True)
 
 # ========= RESUME BUILDER TAB =========
 if selected == "Resume Builder":
@@ -326,7 +326,7 @@ if selected == "Bug Report":
 
             st.markdown("<span style = 'color:lightgreen'>Report Sent Successfully, We'll get back to you super soon ⚡</span>", unsafe_allow_html=True)
             st.markdown("## <span style = 'color:white'>Thank You 💖</span>", unsafe_allow_html=True)
-            st.markdown("#### <span style = 'color:yellow'>Team HardCoders 🦾</span>", unsafe_allow_html=True)
+            st.markdown("#### <span style = 'color:green'>Team HardCoders 🦾</span>", unsafe_allow_html=True)
     with col2:
         st.image("Images/AppSettings.png")
 
