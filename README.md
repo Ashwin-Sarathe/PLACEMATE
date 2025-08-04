@@ -2,6 +2,12 @@
 
 Welcome to the PLACEMATE! This web application helps final-year students predict their placement outcomes, build professional resumes, and report any issues they encounter. The tool uses machine learning to provide accurate predictions and offers a user-friendly interface for a seamless experience.
 
+
+# Link
+
+https://placemate.streamlit.app/
+
+
 ## Features 📱
 
 ### 1. User Authentication
@@ -45,5 +51,6 @@ Welcome to the PLACEMATE! This web application helps final-year students predict
 4. For opening the project, open CMD in the project folder and write "streamlit run app.py". The app will open in your browser on localhost.
 
 ## HAPPY CODING!! 🧑‍💻
+
 
 
